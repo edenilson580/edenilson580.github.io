@@ -18,12 +18,9 @@ let preguntas = [
 ];
 
 let puntos = 0;
-let tiempo = 25;
 let preguntaActual;
-let temporizador;
 
 function iniciarJuego() {
-    tiempo = 25;
     document.getElementById("puntosGanados").innerText = `Puntos almacenados: ${puntos}`;
     mostrarPregunta();
 }
@@ -46,16 +43,9 @@ function mostrarPregunta() {
         opcion.innerText = respuestas[i];
         opcion.onclick = () => verificarRespuesta(respuestas[i]);
     });
-
-
-    tiempo = 25; 
-    document.getElementById("temporizador").innerText = tiempo;
-    clearInterval(temporizador);
-    iniciarTemporizador();
 }
 
 function verificarRespuesta(respuesta) {
-    clearInterval(temporizador);
     if (respuesta === preguntaActual.respuestas[preguntaActual.correcta]) {
         puntos += 10;
         document.getElementById("puntosGanados").innerText = `Puntos almacenados: ${puntos}`;
@@ -63,33 +53,18 @@ function verificarRespuesta(respuesta) {
     } else {
         document.getElementById("pregunta").innerText = "Respuesta incorrecta";
         setTimeout(() => {
-            window.location.href = "menu.html";
-        }, 3000);
+            mostrarPregunta();
+        }, 1500); // Espera 1.5 segundos antes de mostrar la siguiente pregunta
     }
 }
 
 function mostrarFelicitaciones() {
     document.getElementById("pregunta").innerText = "¡Felicidades! Completaste el nivel.";
-    setTimeout(() => {
-        window.location.href = "menu.html";
-    }, 3000);
-}
-
-function iniciarTemporizador() {
-    temporizador = setInterval(() => {
-        tiempo--;
-        document.getElementById("temporizador").innerText = tiempo;
-        if (tiempo <= 0) {
-            clearInterval(temporizador);
-            document.getElementById("pregunta").innerText = "Se acabó el tiempo";
-            setTimeout(() => {
-                window.location.href = "menu.html";
-            }, 3000);
-        }
-    }, 1000);
 }
 
 window.onload = iniciarJuego;
+
+
 
 
 
